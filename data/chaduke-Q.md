@@ -41,3 +41,6 @@ QA3: Simply the function ``_executeSingleOrder()`` as follows
 
 QA3: https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ERC20EnabledLooksRareAggregator.sol#L21
 It will be helpful to make the contract pausible in case the owner of the ``LooksRareAggregator`` contract is compromised. 
+
+QA3: the ``LooksRareAggregator`` gives all power to ONE owner, although the owner could be a mult-sig contract, the management is still too centralized and risky.  It is recommended to have a balance-and-check mechanism: for example, 1) ``setERC20EnabledLooksRareAggregator`` is manged by one role; 2) the rescue functions are managed by a second role; and 3) those that are related to business, such as *setFee()* and market setup by a third role. 
+
