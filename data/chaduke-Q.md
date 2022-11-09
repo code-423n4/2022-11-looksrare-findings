@@ -39,3 +39,5 @@ QA3: Simply the function ``_executeSingleOrder()`` as follows
 }
 ```
 
+QA3: https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ERC20EnabledLooksRareAggregator.sol#L21
+It will be helpful to make the contract pausible in case the owner of the ``LooksRareAggregator`` contract is compromised. 
