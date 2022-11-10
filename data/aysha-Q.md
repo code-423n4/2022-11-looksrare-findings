@@ -14,3 +14,7 @@ https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f9
 Avoid transfer()/send() as reentrancy mitigations: Although transfer() and send() have been recommended as a security best-practice to prevent reentrancy attacks because they only forward 2300 gas, the gas repricing of opcodes may break deployed contracts. Use call() instead, without hardcoded gas limits along with checks-effects-interactions pattern or reentrancy guards for reentrancy protection. (see here: https://consensys.net/diligence/blog/2019/09/stop-using-soliditys-transfer-now/  and here: https://swcregistry.io/docs/SWC-134)
 https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ERC20EnabledLooksRareAggregator.sol#L28
 ==========================================================
+
+ERC20 approve() race condition: Use safeIncreaseAllowance() and safeDecreaseAllowance() from OpenZeppelin’s SafeERC20 implementation to prevent race conditions from manipulating the allowance amounts. (see here: https://swcregistry.io/docs/SWC-114)
+https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/lowLevelCallers/LowLevelERC20Approve.sol#L25
+==========================================================
