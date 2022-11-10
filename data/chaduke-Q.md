@@ -46,3 +46,7 @@ QA3: the ``LooksRareAggregator`` gives all power to ONE owner, although the owne
 
 QA4: ``ERC20EnabledLooksRareAggregator`` needs a whitelist mechanism for ERC20 tokens to avoid people use fake tokens to exchange for good tokens. One way of doing that is right before ``_pullERC20Tokens(tokenTransfers, msg.sender);``, call a function ``isWhiteListed(tokenTransfers)`` in ``LooksRareAggregator`` to verify. 
 
+QA5: the low level transfer functions at
+https://github.com/code-423n4/2022-11-looksrare/tree/main/contracts/lowLevelCallers
+have not checked if the token address is a valid smart contract. If there is no code at the target address, all transfers will still return a success return even though no operation has been performed. 
+
