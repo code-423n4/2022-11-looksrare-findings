@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "8olidity",
+  "risk": "2",
+  "title": "Using the transferfrom feature of the ERC721 contract may freeze the user's NFT",
+  "issueId": 22,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/22"
+}
