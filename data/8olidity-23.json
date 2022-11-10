@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "8olidity",
+  "risk": "2",
+  "title": "LooksRareAggregator.sol does not restrict originator addresses, resulting in token loss",
+  "issueId": 23,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/23"
+}
