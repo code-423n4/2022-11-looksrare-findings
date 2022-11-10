@@ -44,3 +44,5 @@ It will be helpful to make the contract pausible in case the owner of the ``Look
 
 QA3: the ``LooksRareAggregator`` gives all power to ONE owner, although the owner could be a mult-sig contract, the management is still too centralized and risky.  It is recommended to have a balance-and-check mechanism: for example, 1) ``setERC20EnabledLooksRareAggregator`` is manged by one role; 2) the rescue functions are managed by a second role; and 3) those that are related to business, such as *setFee()* and market setup by a third role. 
 
+QA4: ``ERC20EnabledLooksRareAggregator`` needs a whitelist mechanism for ERC20 tokens to avoid people use fake tokens to exchange for good tokens. One way of doing that is right before ``_pullERC20Tokens(tokenTransfers, msg.sender);``, call a function ``isWhiteListed(tokenTransfers)`` in ``LooksRareAggregator`` to verify. 
+
