@@ -50,3 +50,4 @@ QA5: the low level transfer functions at
 https://github.com/code-423n4/2022-11-looksrare/tree/main/contracts/lowLevelCallers
 have not checked if the token address is a valid smart contract. If there is no code at the target address, all transfers will still return a success return even though no operation has been performed. 
 
+QA6: 
