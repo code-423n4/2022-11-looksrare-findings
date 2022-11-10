@@ -1,33 +1,100 @@
-# LooksRare Aggregator Gas Optimization Findings
+# LooksRare Aggregator Low Risk and Non-Critical Issues
 ## Summary
-The Gas savings are calculated using the `forge test --gas-report` command.  
-The same tests were used that are provided in the contest repository.
+| Risk      | Title | File | Instances
+| ----------- | ----------- | ----------- | ----------- |
+| L-00      | Children of OwnableTwoSteps should set delay | OwnableTwoSteps.sol | - |
+| N-00      | Unlocked pragma | - | 11 |
+| N-01      | Different compiler versions | - | 11 |
+| N-02      | Event is missing indexed fields | - | 8 |
 
-| Issue      | Title | File | Instances | Estimated Gas Savings (Deployments) | Estimated Gas Savings (Method calls) |
-| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
-| G-00      | Use functions instead of modifiers | - | 2 modifiers | not calculated | not calculated |
-| G-01      | Don't save orders.length to memory | SeaportProxy.sol | 1 | 800 | 4 on average |
+## [L-00] Children of OwnableTwoSteps should set delay
+In the `OwnableTwoSteps` contract, function `_setupDelayForRenouncingOwnership` it is stated that "This function is expected to be included in the constructor of the contract that inherits this contract.".  
 
-## [G-00] Use functions instead of modifiers
-Modifiers make code more elegant and readable but cost more Gas than functions.  
-Arguably, the additional Gas cost outweighs the readability benefit.  
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L122](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L122)  
 
-There are 2 instances where modifiers are defined.  
+The `OwnableTwoSteps` contract is inherited by `TokenRescuer` which in turn is inherited by `LooksRareProxy`, `SeaportProxy` and `LooksRareAggregator`.  
+None of the children calls the `_setupDelayForRenouncingOwnership` function in their constructor.  
 
-[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ReentrancyGuard.sol#L21](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ReentrancyGuard.sol#L21)  
+This means there is no timelock to renounce ownership.
 
-[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L30](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L30)  
+## [N-00] Unlocked pragma
+It is considered best practice to use a locked Solidity version, thereby only allowing compilation with a specific version.
 
-## [G-01] Don't save orders.length to memory
-[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/proxies/SeaportProxy.sol#L71-L72](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/proxies/SeaportProxy.sol#L71-L72)  
+There are 11 instances of this.  
 
-Deployment Gas saved: **800**  
-Method call Gas saved: **4 on average**
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ReentrancyGuard.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ReentrancyGuard.sol#L2)  
 
-```solidity
--        uint256 ordersLength = orders.length;
--        if (ordersLength == 0 || ordersLength != ordersExtraData.length) revert InvalidOrderLength();
-+        if (orders.length == 0 || orders.length != ordersExtraData.length) revert InvalidOrderLength();
-```
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L2)  
 
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/SignatureChecker.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/SignatureChecker.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Approve.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Approve.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Transfer.sol#L4](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Transfer.sol#L4)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC721Transfer.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC721Transfer.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelETH.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelETH.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC721.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC721.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L2)  
+
+
+
+
+## [N-01] Different compiler versions
+Across the repository, there are 3 different pragmas used:  
+`0.8.17`, `^0.8.14` and `^0.8.0`.  
+While all three can be compiled with the same Solidity version (0.8.17), it is best practice to use a single pragme consistenly in all files.  
+So consider using `0.8.17` for all files.  
+
+There are 11 instances of files that use a different pragma:
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ReentrancyGuard.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/ReentrancyGuard.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/OwnableTwoSteps.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/SignatureChecker.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/SignatureChecker.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Approve.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Approve.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Transfer.sol#L4](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC20Transfer.sol#L4)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC721Transfer.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC721Transfer.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelETH.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/lowLevelCallers/LowLevelETH.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC721.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC721.sol#L2)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L2](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L2)  
+
+## [N-02] Event is missing indexed fields
+Each event should use three indexed fields if it has three or more fields.  
+
+There are 8 instances of events that do not have 3 indexed fields.  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/ILooksRareAggregator.sol#L44](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/ILooksRareAggregator.sol#L44)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/ILooksRareAggregator.sol#L51](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/ILooksRareAggregator.sol#L51)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/ILooksRareAggregator.sol#L58](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/ILooksRareAggregator.sol#L58)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L5](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L5)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L7](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC20.sol#L7)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC721.sol#L9](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC721.sol#L9)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L15](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L15)  
+
+[https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L17](https://github.com/code-423n4/2022-11-looksrare/blob/d8949e1c527e0544027370969f970c4194b10640/contracts/interfaces/IERC1155.sol#L17)  
 
