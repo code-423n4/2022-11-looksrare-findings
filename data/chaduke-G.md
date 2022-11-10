@@ -10,4 +10,7 @@ G03: QA9: https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2
 address private immutable erc20EnabledLooksRareAggregator;
 ```
 
+G04: https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/proxies/SeaportProxy.sol#L72
+https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/proxies/LooksRareProxy.sol#L62
+These two checks can be performed in the calling contract ``LooksRareAggregator``, right before the delegatecall at L88 to save gas.
 
