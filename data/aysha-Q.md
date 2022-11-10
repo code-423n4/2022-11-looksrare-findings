@@ -27,3 +27,9 @@ ERC20 transfer() does not return boolean: Contracts compiled with solc >= 0.4.22
 
 https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/lowLevelCallers/LowLevelERC20Transfer.sol#L51
 ==========================================================
+
+fallback vs receive(): Check that all precautions and subtleties of fallback/receive functions related to visibility, state mutability and Ether transfers have been considered.  (see here: https://docs.soliditylang.org/en/latest/contracts.html#fallback-function and here: https://docs.soliditylang.org/en/latest/contracts.html#receive-ether-function )
+
+https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/LooksRareAggregator.sol#L220
+https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/proxies/SeaportProxy.sol#L86
+==========================================================
