@@ -50,4 +50,9 @@ QA5: the low level transfer functions at
 https://github.com/code-423n4/2022-11-looksrare/tree/main/contracts/lowLevelCallers
 have not checked if the token address is a valid smart contract. If there is no code at the target address, all transfers will still return a success return even though no operation has been performed. 
 
-QA6: 
+QA6: https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/ReentrancyGuard.sol#L12
+https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/LooksRareAggregator.sol#L51
+The ``execute()`` of the ``LookRareAggregator`` is protected from reentrancy attack by the modifier ``nonReentrant`` which relies on the settting and resetting of state variable ``_status``.  Unfortunately, via delegate all in line 88, the callee contract might also change this state variable ``_status``. The reason is that in a delegatecall, both the the callee contract can only read and write to the state variables in the calling contract. In this case, these two contracts do not have the same state variable layout, and the ``_status`` variable corresponds to the slot taken by ``marketplace`` in proxy contracts, ``SeapotProxy`` and ``LooksRareProxy``, which will be initialized to the corresponding market address. In this case, the modifier ``nonReentrant`` will check the wrong status and its funcionality will be compromised.
+Mitigation: make sure the calling contract and the callee contract via a delegatecal always have the same state variable layout, a common pattern to use is the AppStorage pattern: 
+https://eip2535diamonds.substack.com/p/understanding-delegatecall-and-how
+
