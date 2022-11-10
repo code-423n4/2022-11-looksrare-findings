@@ -62,4 +62,4 @@ if(msg.sender == owner) || originator == owner) revert NotcallableByOwner();
 
 ```
 
-This should prevent many attacks in the case that the owner's account is compromised. 
+This should prevent many attacks in the case that the owner's account is compromised, an compromised owner with approve privilege and calling of proxy contract with delegatecall is very troubling. 
