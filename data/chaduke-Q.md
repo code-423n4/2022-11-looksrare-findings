@@ -56,3 +56,10 @@ The ``execute()`` of the ``LookRareAggregator`` is protected from reentrancy att
 Mitigation: make sure the calling contract and the callee contract via a delegatecal always have the same state variable layout, a common pattern to use is the AppStorage pattern: 
 https://eip2535diamonds.substack.com/p/understanding-delegatecall-and-how
 
+QA7: the owner of ``LooksRareAggregator`` should be prevented from calling the ``execute()`` function in ``LooksRareAggregator`` and in ``erc20EnabledLooksRareAggregator`` due to its excessive power, in particular the power to call ``approve`` on any address, currency and amount. This can be performed by inserting a check in the ``execute()`` function as follows
+```
+if(msg.sender == owner) || originator == owner) revert NotcallableByOwner();
+
+```
+
+This should prevent many attacks in the case that the owner's account is compromised. 
