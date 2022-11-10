@@ -67,3 +67,9 @@ This should prevent many attacks in the case that the owner's account is comprom
 QA8: 
 https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/LooksRareAggregator.sol#L171
 ``marketplace`` must be whitelisted, otherwise, this ``approve`` function can approve any marketplace/address as the spender.
+
+QA9: https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/LooksRareAggregator.sol#L44
+``erc20EnabledLooksRareAggregator`` should be declared as immutable and maybe private as well
+```
+address private immutable erc20EnabledLooksRareAggregator;
+```
