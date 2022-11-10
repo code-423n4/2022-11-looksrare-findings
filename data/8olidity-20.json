@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "8olidity",
+  "risk": "2",
+  "title": "Charge of tokens could lead to `LooksRareAggregator.sol::execute()` cannot run",
+  "issueId": 20,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/20"
+}
