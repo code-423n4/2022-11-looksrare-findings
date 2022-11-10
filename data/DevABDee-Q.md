@@ -1,0 +1,2 @@
+### 1. Unlocked `Pragma`
+Some Contracts have floating Pragmas. Fix the Pragma to `0.8.17`. Contracts should be deployed using the same compiler version with which they have been tested. Locking the pragma ensures that contracts do not accidentally get deployed using an older compiler version with unfixed bugs.
