@@ -24,7 +24,21 @@ File: /contracts/LooksRareAggregator.sol
 
 https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/LooksRareAggregator.sol
 
-### L-02 No reverts even when `execute` delegatecall fails
+### L-02 Modifiers shouldn’t update state
+
+_There are **2** instances of this issue:_
+
+```solidity
+File: /contracts/ReentrancyGuard.sol
+
+24: _status = 2;
+
+26: _status = 1;
+```
+
+https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/ReentrancyGuard.sol
+
+### L-03 No reverts even when `execute` delegatecall fails
 
 _There are **1** instances of this issue:_
 
