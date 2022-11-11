@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Koolex",
+  "risk": "3",
+  "title": "A malicious actor can steal all the stuck ETH fund from the LooksRareAggregator contract before the owner rescues it.",
+  "issueId": 98,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/98"
+}
