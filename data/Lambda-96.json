@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Lambda",
+  "risk": "2",
+  "title": "Fee recipient can grift executions when ETH is used",
+  "issueId": 96,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/96"
+}
