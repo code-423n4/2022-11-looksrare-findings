@@ -49,7 +49,7 @@ https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/Look
     }
 ```
 ## Empty/Unused Function Parameters
-Empty or unused function parameters should be commented out to silence runtime warning messages. As an example, the following function may have these parameters refactored to:
+Empty or unused function parameters should be commented out as a better and declarative way to silence runtime warning messages. As an example, the following function may have these parameters refactored to:
 
 https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/LooksRareProxy.sol#L50-L58
 
@@ -64,4 +64,33 @@ https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/Look
         address /* feeRecipient */
     ) external payable override {
 ```
+## Empty Catch Block
+The following try/catch has an empty catch block when making an external function call. Consider refactoring it to emit its anticipated logged error.
+
+https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/LooksRareProxy.sol#L124-L132
+
+```
+            try marketplace.matchAskWithTakerBidUsingETHAndWETH{value: takerBid.price}(takerBid, makerAsk) {
+                _transferTokenToRecipient(
+                    collectionType,
+                    recipient,
+                    makerAsk.collection,
+                    makerAsk.tokenId,
+                    makerAsk.amount
+                );
+            } catch {}
+```
+## Inadequate NatSpec
+Solidity contracts can use a special form of comments, i.e., the Ethereum Natural Language Specification Format (NatSpec) to provide rich documentation for functions, return variables and more. Please visit the following link for further details:
+
+https://docs.soliditylang.org/en/v0.8.16/natspec-format.html
+
+Here are some of the instances entailed:
+
+https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/LooksRareProxy.sol#L107-L134
+
+## Use of `ecrecover` is Susceptible to Signature Malleability
+The built-in EVM pre-compiled `ecrecover` featured in `SignatureChecker.sol`(https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/SignatureChecker.sol) is susceptible to signature malleability due to non-unique v and s (which may not always be in the lower half of the modulo set) values, possibly leading to replay attacks. Elsewhere if devoid of the adoption of nonces, this could prove a vulnerability when not carefully used.
+
+Consider using OpenZeppelin’s ECDSA library which has been time tested in preventing this malleability where possible.
 
