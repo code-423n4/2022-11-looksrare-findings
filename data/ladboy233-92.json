@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": " Admin has high privilege in LooksRareAggregator, admin can remove function to block access, approve malicious contract to steal user fund or approve malicious to call self-destruct on aggregator contract.",
+  "issueId": 92,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/92"
+}
