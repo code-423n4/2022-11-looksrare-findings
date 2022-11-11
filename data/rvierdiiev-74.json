@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "rvierdiiev",
+  "risk": "2",
+  "title": "TokenTransferrer uses transferFrom to send ERC721 token instead of safeTransferFrom",
+  "issueId": 74,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/74"
+}
