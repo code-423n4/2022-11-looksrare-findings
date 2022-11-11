@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "SmartSek",
+  "risk": "2",
+  "title": "`recipient` can be set to `address(this)` posing centralisation risk due to `rescueERC721`",
+  "issueId": 55,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/55"
+}
