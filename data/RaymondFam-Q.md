@@ -29,6 +29,39 @@ https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/libraries/se
     @ are
  *      type is restricted and the offerer or zone are not the caller.
 ```
+## Sanity/Threshold/Limit Checks
+Devoid of sanity/threshold/limit checks, critical parameters can be configured to invalid values, causing a variety of issues and breaking expected interactions within/between contracts. Consider adding proper `uint256` validation as well as zero address checks in the constructor. A worst case scenario would render the contract needing to be re-deployed in the event of human/accidental errors that involve value assignments to immutable variables. If the validation procedure is unclear or too complex to implement on-chain, document the potential issues that could produce invalid values. 
 
+Consider also adding an optional codehash check for immutable address at the constructor since the zero address check cannot guarantee a matching address has been inputted. 
 
+These checks are generally not implemented in the contracts. As an example, the following constructor may be refactored to:
+
+https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/LooksRareProxy.sol#L37-L40
+
+```
+    constructor(address _marketplace, address _aggregator, bytes32 _marketplaceCodeHash, bytes32 _aggregatorCodeHash) {
+        if (_marketplace == address(0) || _aggregator == address(0) || 
+            _marketplace.codehash != _marketplaceCodeHash || _aggregator.codehash != _aggregatorCodeHash) {
+            revert InvalidAddress();
+        }     
+        marketplace = ILooksRareExchange(_marketplace);
+        aggregator = _aggregator;
+    }
+```
+## Empty/Unused Function Parameters
+Empty or unused function parameters should be commented out to silence runtime warning messages. As an example, the following function may have these parameters refactored to:
+
+https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/LooksRareProxy.sol#L50-L58
+
+```
+    function execute(
+        BasicOrder[] calldata orders,
+        bytes[] calldata ordersExtraData,
+        bytes memory /* extraData */,
+        address recipient,
+        bool isAtomic,
+        uint256 /* feeBp */,
+        address /* feeRecipient */
+    ) external payable override {
+```
 
