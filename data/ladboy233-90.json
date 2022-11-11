@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "Order.counter is hardcoded to 0 and may not match the current counter for the given offerer  / order.signer",
+  "issueId": 90,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/90"
+}
