@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "chaduke",
+  "risk": "3",
+  "title": "Failed transfer might be overlooked due to lack of contract existence check",
+  "issueId": 79,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/79"
+}
