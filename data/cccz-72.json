@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "cccz",
+  "risk": "2",
+  "title": "LooksRareProxy should check that currency is ETH",
+  "issueId": 72,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/72"
+}
