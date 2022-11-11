@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Rolezn",
+  "risk": "3",
+  "title": "Buyers who send extra ETH will retrieve all the aggregator's current balance instead of the extra sent.",
+  "issueId": 76,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/76"
+}
