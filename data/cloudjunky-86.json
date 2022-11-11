@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "cloudjunky",
+  "risk": "2",
+  "title": "Use safeTransferFrom for ERC721 transfers",
+  "issueId": 86,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/86"
+}
