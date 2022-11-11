@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "chaduke",
+  "risk": "3",
+  "title": "A malicous user can drain the ERC20 tokens in LooksRareAggregator",
+  "issueId": 83,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/83"
+}
