@@ -1,12 +1,33 @@
-Overall gas change: -682817 (-12.248%)
+Overall gas change: -966652 (-22.026%) when running all tests
+Overall gas change: -835138 (-14.807%) when running the .*Benchmark files
 
-If a function modifier such as onlyOwner is used, the function will revert if a normal user tries to pay the function. Marking the function as payable will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided. The extra opcodes avoided are CALLVALUE(2),DUP1(3),ISZERO(3),PUSH2(3),JUMPI(10),PUSH1(3),DUP1(3),REVERT(0),JUMPDEST(1),POP(2), which costs an average of about 21 gas per call to the function, in addition to the extra deployment cost.
+Marking the function with the onlyOwner modifier as payable will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided. The extra opcodes avoided cost an average of about 21 gas per call to the function, in addition to the extra deployment cost.
+
+Using uint256 instead of boolean type reduces gas cost further.
 
 ```diff
 diff --git a/contracts/LooksRareAggregator.sol b/contracts/LooksRareAggregator.sol
-index f215f39..3e4f364 100644
+index f215f39..0594d2d 100644
 --- a/contracts/LooksRareAggregator.sol
 +++ b/contracts/LooksRareAggregator.sol
+@@ -42,7 +42,7 @@ contract LooksRareAggregator is
+      *         aggregator.
+      */
+     address public erc20EnabledLooksRareAggregator;
+-    mapping(address => mapping(bytes4 => bool)) private _proxyFunctionSelectors;
++    mapping(address => mapping(bytes4 => uint256)) private _proxyFunctionSelectors;
+     mapping(address => FeeData) private _proxyFeeData;
+ 
+     /**
+@@ -68,7 +68,7 @@ contract LooksRareAggregator is
+ 
+         for (uint256 i; i < tradeDataLength; ) {
+             TradeData calldata singleTradeData = tradeData[i];
+-            if (!_proxyFunctionSelectors[singleTradeData.proxy][singleTradeData.selector]) revert InvalidFunction();
++            if (_proxyFunctionSelectors[singleTradeData.proxy][singleTradeData.selector] == 0) revert InvalidFunction();
+ 
+             (bytes memory proxyCalldata, bool maxFeeBpViolated) = _encodeCalldataAndValidateFeeBp(
+                 singleTradeData,
 @@ -117,7 +117,7 @@ contract LooksRareAggregator is
       *      a malicious aggregator from being set in case of an ownership compromise.
       * @param _erc20EnabledLooksRareAggregator The ERC20 enabled LooksRare aggregator's address
@@ -16,15 +37,17 @@ index f215f39..3e4f364 100644
          if (erc20EnabledLooksRareAggregator != address(0)) revert AlreadySet();
          erc20EnabledLooksRareAggregator = _erc20EnabledLooksRareAggregator;
          emit ERC20EnabledLooksRareAggregatorSet();
-@@ -129,7 +129,7 @@ contract LooksRareAggregator is
+@@ -129,8 +129,8 @@ contract LooksRareAggregator is
       * @param proxy The marketplace proxy's address
       * @param selector The marketplace proxy's function selector
       */
 -    function addFunction(address proxy, bytes4 selector) external onlyOwner {
+-        _proxyFunctionSelectors[proxy][selector] = true;
 +    function addFunction(address proxy, bytes4 selector) external payable onlyOwner {
-         _proxyFunctionSelectors[proxy][selector] = true;
++        _proxyFunctionSelectors[proxy][selector] = 1;
          emit FunctionAdded(proxy, selector);
      }
+ 
 @@ -140,7 +140,7 @@ contract LooksRareAggregator is
       * @param proxy The marketplace proxy's address
       * @param selector The marketplace proxy's function selector
@@ -50,6 +73,15 @@ index f215f39..3e4f364 100644
 -    ) external onlyOwner {
 +    ) external payable onlyOwner {
          _executeERC20Approve(currency, marketplace, amount);
+     }
+ 
+@@ -181,7 +181,7 @@ contract LooksRareAggregator is
+      * @param selector The marketplace proxy's function selector
+      * @return Whether the marketplace proxy's function can be called from the aggregator
+      */
+-    function supportsProxyFunction(address proxy, bytes4 selector) external view returns (bool) {
++    function supportsProxyFunction(address proxy, bytes4 selector) external view returns (uint256) {
+         return _proxyFunctionSelectors[proxy][selector];
      }
  
 @@ -196,7 +196,7 @@ contract LooksRareAggregator is
@@ -132,4 +164,40 @@ index f48d65e..4039e51 100644
          uint256 withdrawAmount = IERC20(currency).balanceOf(address(this)) - 1;
          if (withdrawAmount == 0) revert InsufficientAmount();
          _executeERC20DirectTransfer(currency, to, withdrawAmount);
+diff --git a/test/foundry/LooksRareAggregator.t.sol b/test/foundry/LooksRareAggregator.t.sol
+index 0cbfbfa..a79ba36 100644
+--- a/test/foundry/LooksRareAggregator.t.sol
++++ b/test/foundry/LooksRareAggregator.t.sol
+@@ -55,11 +55,11 @@ contract LooksRareAggregatorTest is TestParameters, TestHelpers, TokenRescuerTes
+     }
+ 
+     function testAddFunction() public {
+-        assertTrue(!aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector));
++        assertTrue(aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector) == 0);
+         vm.expectEmit(true, true, false, true);
+         emit FunctionAdded(address(looksRareProxy), LooksRareProxy.execute.selector);
+         aggregator.addFunction(address(looksRareProxy), LooksRareProxy.execute.selector);
+-        assertTrue(aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector));
++        assertTrue(aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector) == 1);
+     }
+ 
+     function testAddFunctionNotOwner() public {
+@@ -69,14 +69,14 @@ contract LooksRareAggregatorTest is TestParameters, TestHelpers, TokenRescuerTes
+     }
+ 
+     function testRemoveFunction() public {
+-        assertTrue(!aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector));
++        assertTrue(aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector) == 0);
+         aggregator.addFunction(address(looksRareProxy), LooksRareProxy.execute.selector);
+-        assertTrue(aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector));
++        assertTrue(aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector) == 1);
+ 
+         vm.expectEmit(true, true, false, true);
+         emit FunctionRemoved(address(looksRareProxy), LooksRareProxy.execute.selector);
+         aggregator.removeFunction(address(looksRareProxy), LooksRareProxy.execute.selector);
+-        assertTrue(!aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector));
++        assertTrue(aggregator.supportsProxyFunction(address(looksRareProxy), LooksRareProxy.execute.selector) == 0);
+     }
+ 
+     function testRemoveFunctionNotOwner() public {
 ```
