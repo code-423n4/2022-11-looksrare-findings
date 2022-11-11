@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Nyx",
+  "risk": "2",
+  "title": "Use safeTransferFrom() instead of transferFrom() for erc721 transfers",
+  "issueId": 70,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/70"
+}
