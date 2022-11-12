@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Vadis",
+  "risk": "3",
+  "title": "`TokenRescuer.rescueERC20()` doesn't rescue ERC20 tokens with commission from sender",
+  "issueId": 111,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/111"
+}
