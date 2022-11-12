@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Vadis",
+  "risk": "2",
+  "title": "ERC20 balances are not reviewed after pulling tokens from user",
+  "issueId": 113,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/113"
+}
