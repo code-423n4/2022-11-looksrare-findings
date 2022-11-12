@@ -9,3 +9,7 @@ Instead, the calculation can be changed to
 uint256 orderFee = (orders[i].price * feeBp + 5000) / 10000;
 ```
 This way fees are rounded more properly.
+
+QA2. remove magic number
+in setFee, instead of using 10000, use a constant ONE_PERCENTAGE, which is defined as
+`uint256 constant ONE_PERCENTAGE = 10000`
