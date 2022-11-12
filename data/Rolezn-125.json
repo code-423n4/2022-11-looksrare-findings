@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Rolezn",
+  "risk": "3",
+  "title": "Malicious proxy can result in storage collision and ownership takeover",
+  "issueId": 125,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/125"
+}
