@@ -14,5 +14,5 @@ QA2. remove magic number
 in setFee, instead of using 10000, use a constant ONE_PERCENTAGE, which is defined as
 `uint256 constant ONE_PERCENTAGE = 10000`
 
-QA3. ERC721/1155 griefing attack
-Attack could send malicious ERC721 and ERC1155 to the aggregator. When the owner tries to rescue them, these tokens can do something unexpected, such as use up all gas and revert, simply to annoy the owner.
+QA3. ERC20/721/1155 griefing attack
+Attack could send malicious ERC20/721/1155 to the aggregator. When the owner tries to rescue them, these tokens can do something unexpected, such as use up all gas and revert, simply to annoy the owner.
