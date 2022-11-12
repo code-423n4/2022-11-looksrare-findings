@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "0x52",
+  "risk": "2",
+  "title": "Adversary can avoid paying fees when using ERC20 tokens with SeaportProxy by setting price to 0 in order struct",
+  "issueId": 100,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/100"
+}
