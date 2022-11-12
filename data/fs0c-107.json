@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "fs0c",
+  "risk": "2",
+  "title": "LowLevelCallers do not check if the contract exists to which they are making calls to.",
+  "issueId": 107,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/107"
+}
