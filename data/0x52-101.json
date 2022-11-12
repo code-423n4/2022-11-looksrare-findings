@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "0x52",
+  "risk": "2",
+  "title": "SeaportProxy will be unable to fill orders in which there are multiple considerations with different tokens",
+  "issueId": 101,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/101"
+}
