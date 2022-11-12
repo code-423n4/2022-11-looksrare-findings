@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "0x52",
+  "risk": "3",
+  "title": "LowLevelETH#_returnETHIfAny doesn't revert on failed ETH transfer",
+  "issueId": 104,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/104"
+}
