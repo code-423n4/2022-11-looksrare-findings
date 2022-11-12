@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Vadis",
+  "risk": "2",
+  "title": "Not checking status of ETH transfer",
+  "issueId": 114,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/114"
+}
