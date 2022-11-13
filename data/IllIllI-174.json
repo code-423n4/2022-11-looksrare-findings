@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "IllIllI",
+  "risk": "2",
+  "title": "Use of `transferFrom()` rather than `safeTransferFrom()` for NFTs in will lead to the loss of NFTs",
+  "issueId": 174,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/174"
+}
