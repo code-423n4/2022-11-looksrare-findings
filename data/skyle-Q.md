@@ -11,6 +11,14 @@ Additionally, ERC20's approve functions have a known race-condition vulnerabilit
 - TokenTransferrer.sol:22
 - LowLevelERC20Approve.sol:25
 
+## Missing NATSPEC 
+
+missing comments /Natspec for TokenReceiver.sol
+
+###
+TokenReceiver.sol
+
+
 
 ## A magic number should be documented and explained. Use a constant instead
 Consider using constant variables as this would make the code more maintainable and readable while costing nothing gas-wise (constants are replaced by their value at compile-time).
