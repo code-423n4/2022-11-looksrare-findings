@@ -90,7 +90,7 @@ FILE:  2022-11-looksrare/contracts/interfaces/SeaportInterface.sol
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
-5)  USING STORAGE INSTEAD OF MEMORY FOR STRUCTS/ARRAYS SAVES GAS
+5)               USING STORAGE INSTEAD OF MEMORY FOR STRUCTS/ARRAYS SAVES GAS
 
 When fetching data from a storage location, assigning the data to a memory variable causes all fields of the struct/array to be read from storage, which incurs a Gcoldsload (2100 gas) for each field of the struct/array. If the fields are read from the new memory variable, they incur an additional MLOAD rather than a cheap stack read. Instead of declearing the variable with the memory keyword, declaring the variable with the storage keyword and caching any fields that need to be re-read in stack variables, will be much cheaper, only incuring the Gcoldsload for the fields actually read. The only time it makes sense to read the whole struct/array into a memory variable, is if the full struct/array is being returned by the function, is being passed to a function that requires memory, or if the array/struct is being read from another memory array/struct
 
@@ -113,9 +113,33 @@ There are 4 instances of this issue.
 189:    AdvancedOrder memory advancedOrder;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
+6)          STACK VARIABLE USED AS A CHEAPER CACHE FOR A STATE VARIABLE  erc20EnabledLooksRareAggregator
+
+
+FILE :   2022-11-looksrare/contracts/LooksRareAggregator.sol
 
 
 
+122:          function setERC20EnabledLooksRareAggregator(address _erc20EnabledLooksRareAggregator) external onlyOwner {
+123:          if (erc20EnabledLooksRareAggregator != address(0)) revert AlreadySet();
+124           erc20EnabledLooksRareAggregator = _erc20EnabledLooksRareAggregator;
+125           emit ERC20EnabledLooksRareAggregatorSet();
+126           }
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+7)             UNCHECKING ARITHMETICS OPERATIONS THAT CAN’T UNDERFLOW/OVERFLOW
+
+             Consider wrapping with an unchecked block here (around 25 gas saved per instance):
+
+FILE :       2022-11-looksrare/contracts/proxies/SeaportProxy.sol
+
+147:         uint256 orderFee = (orders[i].price * feeBp) / 10000;
+
+207:         uint256 orderFee = (price * feeBp) / 10000;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   
 
 
 
