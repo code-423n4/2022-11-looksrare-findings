@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Decurity",
+  "risk": "2",
+  "title": "There is no rescue function in ERC20EnabledLooksRareAggregator.sol",
+  "issueId": 279,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/279"
+}
