@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "carlitox477",
+  "risk": "2",
+  "title": "Unsafe ERC20 operations due to lack of contract length check",
+  "issueId": 257,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/257"
+}
