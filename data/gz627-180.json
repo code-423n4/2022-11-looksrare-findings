@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "gz627",
+  "risk": "3",
+  "title": "Contract `LooksRareAggregator` Ownership renouncement may leave a deficient smart contract in operation and there is no way to fix it",
+  "issueId": 180,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/180"
+}
