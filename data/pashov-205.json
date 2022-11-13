@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "pashov",
+  "risk": "2",
+  "title": "Approval mechanism won’t work correctly with USDT and other tokens that have approval race protection",
+  "issueId": 205,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/205"
+}
