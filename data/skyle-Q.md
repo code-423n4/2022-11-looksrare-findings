@@ -24,6 +24,8 @@ TokenReceiver.sol
 Consider using constant variables as this would make the code more maintainable and readable while costing nothing gas-wise (constants are replaced by their value at compile-time).
 ### 
 LooksRareAggregator.sol line 158
+SeaportProxy.sol line 147
+SeaportProxy.sol line 207
 
 ## Lack of event emission for operation changing the state
 
