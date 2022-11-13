@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "hanxin",
+  "risk": "3",
+  "title": "Without strictly verifying the attribution of balance and the size of the balance when refunding, hackers may use the attack to steal all ERC20 tokens！",
+  "issueId": 210,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/210"
+}
