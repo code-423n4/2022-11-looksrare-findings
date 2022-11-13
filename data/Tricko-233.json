@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Tricko",
+  "risk": "2",
+  "title": "Trade does not reverts even if isAtomic flag is set, when calling non-existent proxy.",
+  "issueId": 233,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/233"
+}
