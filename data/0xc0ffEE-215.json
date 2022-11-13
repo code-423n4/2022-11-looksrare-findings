@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "0xc0ffEE",
+  "risk": "2",
+  "title": "ERC721 token could be locked in contracts",
+  "issueId": 215,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/215"
+}
