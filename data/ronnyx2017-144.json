@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "ronnyx2017",
+  "risk": "2",
+  "title": "Calculation of fee should be rounded up to avoid rounding error",
+  "issueId": 144,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/144"
+}
