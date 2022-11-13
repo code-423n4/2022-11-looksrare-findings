@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "rbserver",
+  "risk": "3",
+  "title": "ETH amount that is trapped in `LooksRareAggregator` contract can be withdrawn by user who is not `LooksRareAggregator`'s owner",
+  "issueId": 157,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/157"
+}
