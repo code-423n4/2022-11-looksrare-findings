@@ -127,6 +127,10 @@ We can declare originator as local address varibale. THERE IS NO USE GETTING ori
 
  158:    if (bp > 10000) revert FeeTooHigh();
 
+2022-11-looksrare/contracts/proxies/SeaportProxy.sol
+
+147:      uint256 orderFee = (orders[i].price * feeBp) / 10000;
+
 -------------------------------------------------------------------------------------------------------------
 6)   USUAL SUSPECTS:  LACK OF ZERO CHECKS FOR NEW ADDRESSES . IN EVERY FUNCTIONS THE ADDRESS PARAMETERS MUST BE CHECKED FOR ZERO ADDRESS . THE GIVEN PARAMETER VALUE IS NOT EQUAL TO  address(0)
 
@@ -161,9 +165,49 @@ function rescueERC721(
 
 ---------------------------------------------------------------------------------------------------------------------------
 
-8) 
+8)   Shorter inheritance list
+
+The inheritance contracts on line 26-32 can be consolidated into a shorter list:
+
+2022-11-looksrare/contracts/LooksRareAggregator.sol
+
+contract LooksRareAggregator is
+    ILooksRareAggregator,
+    TokenRescuer,
+    TokenReceiver,
+    ReentrancyGuard,
+    LowLevelERC20Approve,
+    LowLevelERC721Transfer,
+    LowLevelERC1155Transfer
+{
 
 
+---------------------------------------------------------------------------------------------------------------------------
+
+9)  IN CONSTRUCTOR BEFORE ASSIGNING _aggregator MUST BE CHECKED ZERO ADDRESS . ITS POSSIBLE TO PASS ZERO ADDRESS VIA CONSTRUCTOR
+
+2022-11-looksrare/contracts/ERC20EnabledLooksRareAggregator.sol
+
+ constructor(address _aggregator) {
+        aggregator = ILooksRareAggregator(_aggregator);
+    }
+
+2022-11-looksrare/contracts/proxies/LooksRareProxy.sol
+
+
+constructor(address _marketplace, address _aggregator) {
+        marketplace = ILooksRareExchange(_marketplace);
+        aggregator = _aggregator;
+    }
+
+2022-11-looksrare/contracts/proxies/SeaportProxy.sol
+
+constructor(address _marketplace, address _aggregator) {
+        marketplace = SeaportInterface(_marketplace);
+        aggregator = _aggregator;
+    }
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
