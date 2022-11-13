@@ -1,0 +1,5 @@
+There are two non-critical areas that should be looked into in the codebase which could possibly be used by a hacker.
+
+In Line 51 (https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/LooksRareAggregator.sol#L51) of the LooksRareAggregator.sol contract, the execute function has a payable function that neither checks if the msg.value > 0. The msg.value from "payable" wasn't also used in the function. If msg.value is irrelevant, it should be removed.
+
+in Line 22 (https://github.com/code-423n4/2022-11-looksrare/blob/e3b2c053f722b0ca2dce3a3eb06f64859b8b7a6f/contracts/TokenRescuer.sol#L22) of the TokenRescuer.sol contract, the rescueETH function should have checked if the address passed is a contract or not because with the receive function in a hack contract, a lot could be done especially since the rescueETH function is called by the owner of the contract. The owner privileges might give the hacker access to functions with the onlyOwner modifier.
