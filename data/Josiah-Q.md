@@ -242,3 +242,58 @@ The following event is empty in the parameter field making it incapable of emitt
 ```
         emit ERC20EnabledLooksRareAggregatorSet();
 ```
+## ECRECOVER SUBJECT TO REPLAY ATTACK
+Whenever possible, use OpenZeppelin’s ECDSA library which has been time tested in preventing replay attack of signature malleability associated with `ecrecover'. The issue could arise from the non-unique value of v and an s value that could end up in the upper half of the modulo set. 
+
+Here is the contract instance found.
+
+[SignatureChecker.sol: Line 60](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/SignatureChecker.sol#L60)
+
+```
+        signer = ecrecover(hash, v, r, s);
+```
+## SINGLE POINT OF FAILURE
+Contract owner possesses numerous privileges that could prove disastrous if the private key was compromised. If the key was lost/unrecoverable, all needed system parameter updates would be halted.
+
+An established owner is generally prone to target attack, especially given the insufficient protection on sensitive owner private keys. The concentration of privileges creates a single point of failure, leading to transfer of ownership and malicious reset of setter function parameters.
+
+The following measures are recommended.
+1) Split privileges using multisig option making sure that no one address has excessive ownership of the system.
+2) Clearly document the functions and implementations the owner can change.
+3) Document the risks associated with privileged users and single points of failure.
+4) Make sure that users are aware of all the risks associated with the system.
+
+## SEAPORT FUNCTION CALLS
+A high risk edge case bug associated with the Seaport `_validateOrderAndUpdateStatus()` was found in the [May code4rena audit contest.](https://code4rena.com/reports/2022-05-opensea-seaport#h-01-truncation-in-ordervalidator-can-lead-to-resetting-the-fill-and-selling-more-tokens) It concerns truncation to zero on both the numerator and the denominator particularly when involving a restricted token sale. The mitigation steps recommended was not deemed ideal then, and although the Seaport protocol team has since fixed this bug with added GCD measure and removing `unchecked {...}`, it is recommended adding the complementary check to circumvent any other hidden issues associated with it whilst having the error detected at its earliest possibility.
+
+For instance, instead of allowing user to input `2**118` and  `2**119` as numerator and denominator for an intended fraction of `1/2`, stem it by making sure that those two inputs could not be more than the total ERC721/1155 collection availability and multiply them with factor just enough to remove the decimals. Here are the two for loop instances entailed prior to calling `marketplace.fulfillAvailableAdvancedOrders()` and `marketplace.fulfillAdvancedOrder()`:
+
+[SeaportProxy.sol#L102-L114](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/SeaportProxy.sol#L102-L114)
+
+```
+        for (uint256 i; i < ordersLength; ) {
+            OrderExtraData memory orderExtraData = abi.decode(ordersExtraData[i], (OrderExtraData));
+            advancedOrders[i].parameters = _populateParameters(orders[i], orderExtraData);
+            advancedOrders[i].numerator = orderExtraData.numerator;
+            advancedOrders[i].denominator = orderExtraData.denominator;
+            advancedOrders[i].signature = orders[i].signature;
+
+            if (orders[i].currency == address(0)) ethValue += orders[i].price;
+
+            unchecked {
+                ++i;
+            }
+        }
+```
+
+[SeaportProxy.sol#L187-L193](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/SeaportProxy.sol#L187-L193)
+
+```
+        for (uint256 i; i < orders.length; ) {
+            OrderExtraData memory orderExtraData = abi.decode(ordersExtraData[i], (OrderExtraData));
+            AdvancedOrder memory advancedOrder;
+            advancedOrder.parameters = _populateParameters(orders[i], orderExtraData);
+            advancedOrder.numerator = orderExtraData.numerator;
+            advancedOrder.denominator = orderExtraData.denominator;
+            advancedOrder.signature = orders[i].signature;
+```
