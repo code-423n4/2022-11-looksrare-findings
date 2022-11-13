@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "corerouter",
+  "risk": "2",
+  "title": "It is possible for a user's ETH to be trapped inside the contracts.",
+  "issueId": 179,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/179"
+}
