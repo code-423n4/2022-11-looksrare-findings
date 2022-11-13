@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "jayphbee",
+  "risk": "2",
+  "title": "transferFrom is used for ERC721 transfers instead of safeTransferFrom.",
+  "issueId": 222,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/222"
+}
