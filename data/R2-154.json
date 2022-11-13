@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "R2",
+  "risk": "3",
+  "title": "No token approves in ``SeaportProxy.execute()``",
+  "issueId": 154,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/154"
+}
