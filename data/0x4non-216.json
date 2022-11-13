@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "0x4non",
+  "risk": "2",
+  "title": "Use `safeTransferFrom()` Instead of `transferFrom()` for ERC721",
+  "issueId": 216,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/216"
+}
