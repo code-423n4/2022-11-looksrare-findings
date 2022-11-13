@@ -1,4 +1,4 @@
-1)  For all solidity files, license keyword should be mentioned as   SPDX-License-Identifier: UNLICENSED.
+1)                 For all solidity files, license keyword should be mentioned as   SPDX-License-Identifier: UNLICENSED.
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -42,11 +42,11 @@
 
 ----------------------------------------------------------------------------------------------------------------------
 
-3)    SOLIDITY PRAGMA VERSIONING SHOULD BE EXACTLY SAME FOR ALL CONTRACTS . SOME INTERFACES USING 0.8.0 BUT SOME INTERFACES USING 0.8.14 AND 0.8.17 
+3)              SOLIDITY PRAGMA VERSIONING SHOULD BE EXACTLY SAME FOR ALL CONTRACTS . SOME INTERFACES USING 0.8.0 BUT SOME INTERFACES USING 0.8.14 AND 0.8.17 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-4)   IN execute  FUNCTION originator IS ONE OF THE  PARAMETER . SO EVERY TIME WHEN WE CALL execute FUNCTION WE ALWAYS SEND THE originator ADDRESS ALONG WITH FUNCTION CALL . INSIDE THE FUNCTION DEFINITION msg.sender ADDRESS IS SET TO originator . IN THIS CASE THE originator PARAMETER IS NOT NEEDED. THE originator PARAMETER VALUE IS NOT USED . 
+4)                  IN execute  FUNCTION originator IS ONE OF THE  PARAMETER . SO EVERY TIME WHEN WE CALL execute FUNCTION WE ALWAYS SEND THE originator ADDRESS ALONG WITH FUNCTION CALL . INSIDE THE FUNCTION DEFINITION msg.sender ADDRESS IS SET TO originator . IN THIS CASE THE originator PARAMETER IS NOT NEEDED. THE originator PARAMETER VALUE IS NOT USED . 
 
 PROOF OF WORK:  
 
@@ -121,7 +121,7 @@ We can declare originator as local address varibale. THERE IS NO USE GETTING ori
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
-5)   It is bad practice to use numbers directly in code without explanation. 
+5)                  It is bad practice to use numbers directly in code without explanation. 
 
 2022-11-looksrare/contracts/LooksRareAggregator.sol
 
@@ -132,7 +132,7 @@ We can declare originator as local address varibale. THERE IS NO USE GETTING ori
 147:      uint256 orderFee = (orders[i].price * feeBp) / 10000;
 
 -------------------------------------------------------------------------------------------------------------
-6)   USUAL SUSPECTS:  LACK OF ZERO CHECKS FOR NEW ADDRESSES . IN EVERY FUNCTIONS THE ADDRESS PARAMETERS MUST BE CHECKED FOR ZERO ADDRESS . THE GIVEN PARAMETER VALUE IS NOT EQUAL TO  address(0)
+6)              USUAL SUSPECTS:  LACK OF ZERO CHECKS FOR NEW ADDRESSES . IN EVERY FUNCTIONS THE ADDRESS PARAMETERS MUST BE CHECKED FOR ZERO ADDRESS . THE GIVEN PARAMETER VALUE IS NOT EQUAL TO  address(0)
 
 2022-11-looksrare/contracts/LooksRareAggregator.sol
 
@@ -154,7 +154,7 @@ function rescueERC721(
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-7)  EVENT IS MISSING INDEXED FIELDS
+7)            EVENT IS MISSING INDEXED FIELDS
 
 2022-11-looksrare/contracts/interfaces/IOwnableTwoSteps.sol
 
@@ -165,7 +165,7 @@ function rescueERC721(
 
 ---------------------------------------------------------------------------------------------------------------------------
 
-8)   Shorter inheritance list
+8)                  Shorter inheritance list
 
 The inheritance contracts on line 26-32 can be consolidated into a shorter list:
 
@@ -184,7 +184,7 @@ contract LooksRareAggregator is
 
 ---------------------------------------------------------------------------------------------------------------------------
 
-9)  IN CONSTRUCTOR BEFORE ASSIGNING _aggregator MUST BE CHECKED ZERO ADDRESS . ITS POSSIBLE TO PASS ZERO ADDRESS VIA CONSTRUCTOR
+9)                 IN CONSTRUCTOR BEFORE ASSIGNING _aggregator MUST BE CHECKED ZERO ADDRESS . ITS POSSIBLE TO PASS ZERO ADDRESS VIA CONSTRUCTOR
 
 2022-11-looksrare/contracts/ERC20EnabledLooksRareAggregator.sol
 
@@ -209,7 +209,7 @@ constructor(address _marketplace, address _aggregator) {
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-10)  NOT USING THE NAMED RETURN VARIABLES ANYWHERE IN THE FUNCTION IS CONFUSING
+10)           NOT USING THE NAMED RETURN VARIABLES ANYWHERE IN THE FUNCTION IS CONFUSING
 
     changing the variable to be an unnamed one
 
@@ -221,7 +221,7 @@ function _encodeCalldataAndValidateFeeBp(
         TradeData calldata singleTradeData,
         address recipient,
         bool isAtomic
-    ) private view returns (bytes memory proxyCalldata, bool maxFeeBpViolated) {  //AUDIT   bytes memory proxyCalldata, bool maxFeeBpViolated
+    ) private view returns (bytes memory proxyCalldata, bool maxFeeBpViolated) {               //AUDIT   bytes memory proxyCalldata, bool maxFeeBpViolated
         FeeData memory feeData = _proxyFeeData[singleTradeData.proxy];
         maxFeeBpViolated = singleTradeData.maxFeeBp < feeData.bp;
         proxyCalldata = abi.encodeWithSelector(
@@ -239,11 +239,10 @@ function _encodeCalldataAndValidateFeeBp(
 
 2022-11-looksrare/contracts/proxies/SeaportProxy.sol
 
-
 function _populateParameters(BasicOrder calldata order, OrderExtraData memory orderExtraData)
         private
         pure
-        returns (OrderParameters memory parameters)  ///@AUDIT  parameters
+        returns (OrderParameters memory parameters)                                       ///@AUDIT  parameters
     {
         uint256 recipientsLength = orderExtraData.recipients.length;
 
@@ -284,6 +283,6 @@ function _populateParameters(BasicOrder calldata order, OrderExtraData memory or
         parameters.consideration = consideration;
     }
 }
-
+--------------------------------------------------------------------------------------------------------------------------
 
 
