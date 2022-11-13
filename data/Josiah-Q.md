@@ -158,3 +158,87 @@ Non-descriptive local variables could make code base difficult to read and navig
     @ `bp` should be changed to something like `feeBasisPoint`
     event FeeUpdated(address proxy, uint256 bp, address recipient);
 ```
+[OrderStructs.sol: Line 25](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/libraries/OrderStructs.sol#L25)
+
+```
+    @ `bp` should be changed to something like `feeBasisPoint`
+    uint256 bp; // Aggregator fee basis point
+```
+## DOS ON UNBOUNDED LOOP
+Unbounded loop could lead to OOG (Out of Gas) denying the users' of needed services. Here are some instances found.
+
+[SeaportProxy.sol: Line 102](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/SeaportProxy.sol#L102)
+
+```
+        for (uint256 i; i < ordersLength; ) {
+```
+
+[SeaportProxy.sol: Line 255](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/SeaportProxy.sol#L255)
+
+```
+        for (uint256 j; j < recipientsLength; ) {
+```
+[ERC20EnabledLooksRareAggregator.sol: Line 41](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/ERC20EnabledLooksRareAggregator.sol#L41)
+
+```
+        for (uint256 i; i < tokenTransfersLength; ) {
+```
+## TYPO ERRORS
+[ConsiderationStructs.sol: Line 168](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/libraries/seaport/ConsiderationStructs.sol#L168)
+
+```
+    @ are should be corrected to is
+ *      type is restricted and the offerer or zone are not the caller.
+```
+## COMPILER VERSION PRAGMA SPECIFICITY
+Non-library contracts and interfaces should avoid using floating pragmas ^0.8.9. Doing this may be a security risk for the actual application implementation itself. For instance, a known vulnerable compiler version may accidentally be selected or a security tool might fallback to an older compiler version leading to checking a different EVM compilation that is ultimately deployed on the blockchain.
+
+Here are the contract instances found using `^0.8.0`.
+
+[IERC20.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/interfaces/IERC20.sol)
+[IERC721.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/interfaces/IERC721.sol)
+[IERC1155.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/interfaces/IERC1155.sol)
+
+Here are the contract instances found using `^0.8.14`.
+
+[LowLevelETH.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/lowLevelCallers/LowLevelETH.sol)
+[LowLevelERC1155Transfer.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/lowLevelCallers/LowLevelERC1155Transfer.sol)
+[LowLevelERC721Transfer.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/lowLevelCallers/LowLevelERC721Transfer.sol)
+[LowLevelERC20Transfer.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/lowLevelCallers/LowLevelERC20Transfer.sol)
+[LowLevelERC20Approve.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/lowLevelCallers/LowLevelERC20Approve.sol)
+[SignatureChecker.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/SignatureChecker.sol)
+[OwnableTwoSteps.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/OwnableTwoSteps.sol)
+[ReentrancyGuard.sol](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/ReentrancyGuard.sol)
+
+## EVENT PARAMETERS SHOULD BE INDEXED
+Up to three event parameters should be indexed. This will help filter off the logs in listening for specifically wanted data. Using `indexed` has the benefit of making the arguments log topics instead of data.
+
+Here is one of the instances found.
+
+[ILooksRareAggregator.sol: Line 44](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/interfaces/ILooksRareAggregator.sol#L44)
+
+```
+    event FeeUpdated(address proxy, uint256 bp, address recipient);
+```
+## NEW AND OLD VALUES SHOULD BE EMITTED
+It is recommended having events associated with setter functions emit both the new and old values instead of just the new value. Here is one of the instances found.
+
+[LooksRareAggregator.sol: Line 162](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/LooksRareAggregator.sol#L162)
+
+```
+        emit FeeUpdated(proxy, bp, recipient);
+```
+## UNUSABLE EVENT
+The following event is empty in the parameter field making it incapable of emitting anything. It is recommended removing these unusable lines of code.
+
+[ILooksRareAggregator.sol: Line 36](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/interfaces/ILooksRareAggregator.sol#L36)
+
+```
+    event ERC20EnabledLooksRareAggregatorSet();
+```
+
+[LooksRareAggregator.sol: Line 123](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/LooksRareAggregator.sol#L123)
+
+```
+        emit ERC20EnabledLooksRareAggregatorSet();
+```
