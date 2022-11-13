@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "M0ndoHEHE",
+  "risk": "3",
+  "title": "calling execute() may lead to stealing funds if some ETH is stuck on the contract",
+  "issueId": 224,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/224"
+}
