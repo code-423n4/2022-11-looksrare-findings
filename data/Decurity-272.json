@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Decurity",
+  "risk": "2",
+  "title": "Tokens and ETH can be sweeped from LooksRareAggregator",
+  "issueId": 272,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/272"
+}
