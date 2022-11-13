@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "pashov",
+  "risk": "2",
+  "title": "Using `ERC721::transferFrom` instead of `ERC721::safeTransferFrom` can result in tokens stuck forever",
+  "issueId": 207,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/207"
+}
