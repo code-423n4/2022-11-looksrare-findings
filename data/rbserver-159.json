@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "rbserver",
+  "risk": "3",
+  "title": "User, who is not `LooksRareAggregator` contract's owner, is able to withdraw ERC20 token amount that is trapped in `LooksRareAggregator` contract",
+  "issueId": 159,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/159"
+}
