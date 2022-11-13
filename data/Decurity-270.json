@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Decurity",
+  "risk": "3",
+  "title": "The owner of the contract can broke the storage of the LooksRareAggregator contract",
+  "issueId": 270,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/270"
+}
