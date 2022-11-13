@@ -18,3 +18,6 @@ It should be checked that ```_aggregator != address(0)``` and ```_marketplace !=
 
 # SeaportProxy#constructor allows to set address zero to aggregator and marketplace
 It should be checked that ```_aggregator != address(0)``` and ```_marketplace != address(0)```, if ```_aggregator == address(0)``` or ```_marketplace == address(0)``` it will be needed to redeploy.
+
+# _executeERC721TransferFrom, _executeERC1155SafeTransferFrom, _executeERC1155SafeBatchTransferFrom do not check contract length
+The problem has similarities with one reported in [OlympusDao contest](https://code4rena.com/reports/2022-08-olympus/#m-02-solmate-safetransfer-and-safetransferfrom-does-not-check-the-codesize-of-the-token-address-which-may-lead-to-fund-loss). The problem is the ERC721 and ERC1155 contract length lack of check. These function in the whole interaction of the present contract does not present major issues, however if they are intended to be used by other contracts it may well present several high issues.
