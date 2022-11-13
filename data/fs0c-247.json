@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "fs0c",
+  "risk": "2",
+  "title": "In case where  GenericMarketProxy contracts have unaligned storage layout with respect to LooksRareAggregator, an attacker can set fee more than 10000. ",
+  "issueId": 247,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/247"
+}
