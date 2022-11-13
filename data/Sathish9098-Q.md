@@ -209,8 +209,81 @@ constructor(address _marketplace, address _aggregator) {
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
+10)  NOT USING THE NAMED RETURN VARIABLES ANYWHERE IN THE FUNCTION IS CONFUSING
+
+    changing the variable to be an unnamed one
+
+There are 2 instance for this issue : 
+
+FILE:   2022-11-looksrare/contracts/LooksRareAggregator.sol
+
+function _encodeCalldataAndValidateFeeBp(
+        TradeData calldata singleTradeData,
+        address recipient,
+        bool isAtomic
+    ) private view returns (bytes memory proxyCalldata, bool maxFeeBpViolated) {  //AUDIT   bytes memory proxyCalldata, bool maxFeeBpViolated
+        FeeData memory feeData = _proxyFeeData[singleTradeData.proxy];
+        maxFeeBpViolated = singleTradeData.maxFeeBp < feeData.bp;
+        proxyCalldata = abi.encodeWithSelector(
+            singleTradeData.selector,
+            singleTradeData.orders,
+            singleTradeData.ordersExtraData,
+            singleTradeData.extraData,
+            recipient,
+            isAtomic,
+            feeData.bp,
+            feeData.recipient
+        );
+    }
 
 
+2022-11-looksrare/contracts/proxies/SeaportProxy.sol
+
+
+function _populateParameters(BasicOrder calldata order, OrderExtraData memory orderExtraData)
+        private
+        pure
+        returns (OrderParameters memory parameters)  ///@AUDIT  parameters
+    {
+        uint256 recipientsLength = orderExtraData.recipients.length;
+
+        parameters.offerer = order.signer;
+        parameters.zone = orderExtraData.zone;
+        parameters.zoneHash = orderExtraData.zoneHash;
+        parameters.salt = orderExtraData.salt;
+        parameters.conduitKey = orderExtraData.conduitKey;
+        parameters.orderType = orderExtraData.orderType;
+        parameters.startTime = order.startTime;
+        parameters.endTime = order.endTime;
+        parameters.totalOriginalConsiderationItems = recipientsLength;
+
+        OfferItem[] memory offer = new OfferItem[](1);
+        // Seaport enums start with NATIVE and ERC20 so plus 2
+        offer[0].itemType = ItemType(uint8(order.collectionType) + 2);
+        offer[0].token = order.collection;
+        offer[0].identifierOrCriteria = order.tokenIds[0];
+        uint256 amount = order.amounts[0];
+        offer[0].startAmount = amount;
+        offer[0].endAmount = amount;
+        parameters.offer = offer;
+
+        ConsiderationItem[] memory consideration = new ConsiderationItem[](recipientsLength);
+        for (uint256 j; j < recipientsLength; ) {
+            // We don't need to assign value to identifierOrCriteria as it is always 0.
+            uint256 recipientAmount = orderExtraData.recipients[j].amount;
+            consideration[j].startAmount = recipientAmount;
+            consideration[j].endAmount = recipientAmount;
+            consideration[j].recipient = payable(orderExtraData.recipients[j].recipient);
+            consideration[j].itemType = order.currency == address(0) ? ItemType.NATIVE : ItemType.ERC20;
+            consideration[j].token = order.currency;
+
+            unchecked {
+                ++j;
+            }
+        }
+        parameters.consideration = consideration;
+    }
+}
 
 
 
