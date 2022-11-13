@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "carlitox477",
+  "risk": "2",
+  "title": "LowLevelETH: _returnETHIfAny; _returnETHIfAny; _returnETHIfAnyWithOneWeiLeft do not check if call was successful",
+  "issueId": 163,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/163"
+}
