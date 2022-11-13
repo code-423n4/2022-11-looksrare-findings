@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "0xSmartContract",
+  "risk": "2",
+  "title": "Missing ReEntrancy Guard to `execute` function",
+  "issueId": 134,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/134"
+}
