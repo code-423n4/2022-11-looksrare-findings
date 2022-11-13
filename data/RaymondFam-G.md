@@ -167,7 +167,7 @@ For instance, `_proxyFeeData[proxy]` could  be cached in the instance below:
 https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/LooksRareAggregator.sol#L159-L160
 
 ```
-        FeeData _feeData = _proxyFeeData[proxy];
+        FeeData storage _feeData = _proxyFeeData[proxy];
         _feeData.bp = bp;
         _feeData.recipient = recipient;
 ```
