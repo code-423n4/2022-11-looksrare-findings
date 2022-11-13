@@ -269,3 +269,14 @@ Consider:
 2) clearly documenting the functions and implementations the owner can change,
 3) documenting the risks associated with privileged users and single points of failure, and
 4) ensuring that users are aware of all the risks associated with the system.
+
+## Added Measures When Calling Seaport Functions
+A high risk edge case bug associated with the Seaport `_validateOrderAndUpdateStatus()` was found in the [May code4rena audit contest.](https://code4rena.com/reports/2022-05-opensea-seaport#h-01-truncation-in-ordervalidator-can-lead-to-resetting-the-fill-and-selling-more-tokens) It concerns truncation to zero on both the numerator and the denominator particularly when involving a restricted token sale. The mitigation steps recommended was not deemed ideal then, and although the Seaport protocol team has since fixed this bug with added GCD measure and removing `unchecked {...}`, it is recommended adding the complementary check to circumvent any other hidden issues associated with it whilst having the error detected at its earliest possibility.
+
+For instance, instead of allowing user to input `2**118` and  `2**119` as numerator and denominator for an intended fraction of `1/2`, stem it by making sure that those two inputs could not be more than the total ERC721/1155 collection availability and multiply them with factor just enough to remove the decimals. Here are the two for loop instances entailed prior to calling `marketplace.fulfillAvailableAdvancedOrders()` and `marketplace.fulfillAdvancedOrder()`:
+
+https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/SeaportProxy.sol#L114
+https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/SeaportProxy.sol#L187-L193
+
+
+
