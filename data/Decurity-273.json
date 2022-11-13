@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Decurity",
+  "risk": "2",
+  "title": "Fees are not checked for transfers which means that user may not be able to buy NFT",
+  "issueId": 273,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/273"
+}
