@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "jayphbee",
+  "risk": "3",
+  "title": "call opcode's return value not checked.",
+  "issueId": 241,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/241"
+}
