@@ -123,6 +123,8 @@ We can declare originator as local address varibale. THERE IS NO USE GETTING ori
 
 5)                  It is bad practice to use numbers directly in code without explanation. 
 
+There are 3 instance for this issue : 
+
 2022-11-looksrare/contracts/LooksRareAggregator.sol
 
  158:    if (bp > 10000) revert FeeTooHigh();
@@ -130,6 +132,8 @@ We can declare originator as local address varibale. THERE IS NO USE GETTING ori
 2022-11-looksrare/contracts/proxies/SeaportProxy.sol
 
 147:      uint256 orderFee = (orders[i].price * feeBp) / 10000;
+
+207:       uint256 orderFee = (price * feeBp) / 10000;
 
 -------------------------------------------------------------------------------------------------------------
 6)              USUAL SUSPECTS:  LACK OF ZERO CHECKS FOR NEW ADDRESSES . IN EVERY FUNCTIONS THE ADDRESS PARAMETERS MUST BE CHECKED FOR ZERO ADDRESS . THE GIVEN PARAMETER VALUE IS NOT EQUAL TO  address(0)
@@ -158,6 +162,8 @@ function rescueERC721(
 
 2022-11-looksrare/contracts/interfaces/IOwnableTwoSteps.sol
 
+There are 2 instance for this issue : 
+
  26:    event InitiateOwnershipTransfer(address previousOwner, address potentialOwner);
 
 27)   event NewOwner(address newOwner);
@@ -184,7 +190,7 @@ contract LooksRareAggregator is
 
 ---------------------------------------------------------------------------------------------------------------------------
 
-9)                 IN CONSTRUCTOR BEFORE ASSIGNING _aggregator MUST BE CHECKED ZERO ADDRESS . ITS POSSIBLE TO PASS ZERO ADDRESS VIA CONSTRUCTOR
+9)                Missing checks for address(0x0) when assigning values to address state variables  
 
 2022-11-looksrare/contracts/ERC20EnabledLooksRareAggregator.sol
 
@@ -284,5 +290,12 @@ function _populateParameters(BasicOrder calldata order, OrderExtraData memory or
     }
 }
 --------------------------------------------------------------------------------------------------------------------------
+ 11)              UNUSED/EMPTY RECEIVE()) FUNCTION
+
+FILE:  2022-11-looksrare/contracts/LooksRareAggregator.sol
+
+263:  receive() external payable {} 
+
+----------------------------------------------------------------------------------------------------------------------------
 
 
