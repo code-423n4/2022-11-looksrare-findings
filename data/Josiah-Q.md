@@ -264,9 +264,7 @@ The following measures are recommended.
 4) Make sure that users are aware of all the risks associated with the system.
 
 ## SEAPORT FUNCTION CALLS
-A high risk edge case bug associated with the Seaport `_validateOrderAndUpdateStatus()` was found in the [May code4rena audit contest.](https://code4rena.com/reports/2022-05-opensea-seaport#h-01-truncation-in-ordervalidator-can-lead-to-resetting-the-fill-and-selling-more-tokens) It concerns truncation to zero on both the numerator and the denominator particularly when involving a restricted token sale. The mitigation steps recommended was not deemed ideal then, and although the Seaport protocol team has since fixed this bug with added GCD measure and removing `unchecked {...}`, it is recommended adding the complementary check to circumvent any other hidden issues associated with it whilst having the error detected at its earliest possibility.
-
-For instance, instead of allowing user to input `2**118` and  `2**119` as numerator and denominator for an intended fraction of `1/2`, stem it by making sure that those two inputs could not be more than the total ERC721/1155 collection availability and multiply them with factor just enough to remove the decimals. Here are the two for loop instances entailed prior to calling `marketplace.fulfillAvailableAdvancedOrders()` and `marketplace.fulfillAdvancedOrder()`:
+Users could input edge values, e.g. `2**118` and  `2**119` as numerator and denominator for an intended simplified fraction of `1/2`. It was a previous bug in the Opensea contract that could cause both numerator and denominator revert to zero/overflow. This could be prevented by making sure that those two inputs could not be more than the total ERC721/ERC1155 collection availability. Multiply them with a factor to remove the decimals if need be. Here are the two for loop instances entailed before calling `marketplace.fulfillAvailableAdvancedOrders()` and `marketplace.fulfillAdvancedOrder()`:
 
 [SeaportProxy.sol#L102-L114](https://github.com/code-423n4/2022-11-looksrare/blob/main/contracts/proxies/SeaportProxy.sol#L102-L114)
 
