@@ -90,6 +90,32 @@ FILE:  2022-11-looksrare/contracts/interfaces/SeaportInterface.sol
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
+5)  USING STORAGE INSTEAD OF MEMORY FOR STRUCTS/ARRAYS SAVES GAS
+
+When fetching data from a storage location, assigning the data to a memory variable causes all fields of the struct/array to be read from storage, which incurs a Gcoldsload (2100 gas) for each field of the struct/array. If the fields are read from the new memory variable, they incur an additional MLOAD rather than a cheap stack read. Instead of declearing the variable with the memory keyword, declaring the variable with the storage keyword and caching any fields that need to be re-read in stack variables, will be much cheaper, only incuring the Gcoldsload for the fields actually read. The only time it makes sense to read the whole struct/array into a memory variable, is if the full struct/array is being returned by the function, is being passed to a function that requires memory, or if the array/struct is being read from another memory array/struct
+
+FILE:   2022-11-looksrare/contracts/proxies/LooksRareProxy.sol
+
+There are 4 instances of this issue.
+
+67:   OrderExtraData memory orderExtraData = abi.decode(ordersExtraData[i], (OrderExtraData));
+
+65:    BasicOrder memory order = orders[i];
+
+69:     OrderTypes.MakerOrder memory makerAsk;
+
+ 90:    OrderTypes.TakerOrder memory takerBid;
+
+2022-11-looksrare/contracts/proxies/SeaportProxy.sol
+
+188:   OrderExtraData memory orderExtraData = abi.decode(ordersExtraData[i], (OrderExtraData));
+           
+189:    AdvancedOrder memory advancedOrder;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
