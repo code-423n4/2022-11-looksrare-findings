@@ -16,3 +16,5 @@ in setFee, instead of using 10000, use a constant ONE_PERCENTAGE, which is defin
 
 QA3. ERC20/721/1155 griefing attack
 Attack could send malicious ERC20/721/1155 to the aggregator. When the owner tries to rescue them, these tokens can do something unexpected, such as use up all gas and revert, simply to annoy the owner.
+
+QA4. add timelock to setFee(), to mitigate sudden fee changes to the user
