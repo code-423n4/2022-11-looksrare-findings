@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "Chom",
+  "risk": "2",
+  "title": "Seaport proxy is missing ERC20 approval, so it can't buy any order that is listed using an ERC20",
+  "issueId": 244,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/244"
+}
