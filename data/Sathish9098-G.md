@@ -1,28 +1,4 @@
-1)       > 0 IS CONSUMING MORE GAS THAN  != 0 FOR UNSIGNED INTEGERS. > 0 IS LESS EFFICIANT
-
-    != 0 costs less gas compared to > 0 for unsigned integers in IF statements with the optimizer enabled (6 gas). Every call can save 6 gas 
-
-There are 6 instances of this issue.
-
-FILE :  2022-11-looksrare/contracts/LooksRareAggregator.sol
-
-92:       if (returnData.length > 0) {    
-            
-108:     if (tokenTransfersLength > 0) _returnERC20TokensIfAny(tokenTransfers, originator); 
-
-FILE:     2022-11-looksrare/contracts/proxies/SeaportProxy.sol
-
-152:     if (fee > 0) _transferFee(fee, lastOrderCurrency, feeRecipient);
-
-163:      if (fee > 0) _transferFee(fee, lastOrderCurrency, feeRecipient);
-
-211:      if (fee > 0) _transferFee(fee, lastOrderCurrency, feeRecipient);
-
-224:      if (fee > 0) _transferFee(fee, lastOrderCurrency, feeRecipient);
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-2)        FUNCTIONS GUARANTEED TO REVERT WHEN CALLED BY NORMAL USERS CAN BE MARKED AS payable
+2)    FUNCTIONS GUARANTEED TO REVERT WHEN CALLED BY NORMAL USERS CAN BE MARKED AS payable
    
   If a function is  modifier such as "onlyOwner" is used, the function will revert if the normal user tries to pay the function. Marking the function as payable will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided. The extra opcodes avoided are CALLVALUE(2),DUP1(3),ISZERO(3),PUSH2(3),JUMPI(10),PUSH1(3),DUP1(3),REVERT(0),JUMPDEST(1),POP(2), which costs an average of about 21 gas per call to the function, in addition to the extra deployment cost.
 
@@ -82,7 +58,7 @@ FILE:  2022-11-looksrare/contracts/interfaces/SeaportInterface.sol
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
-4)              FOR || OPERATOR DON'T WANT TO CHECK ALL CONDITIONS IN  if (ordersLength == 0 || ordersLength != ordersExtraData.length). IN THIS IF ordersLength == 0 IS TRUE THEN THE OVER ALL if CONDITION BECOME TRUE . THEN ordersLength != ordersExtraData.length IS NOT NECESSORY TO CHECK . WE CAN SKIP SECOND CONDITION CHECK .
+4)  FOR || OPERATOR DON'T WANT TO CHECK ALL CONDITIONS IN  if (ordersLength == 0 || ordersLength != ordersExtraData.length). IN THIS IF ordersLength == 0 IS TRUE THEN THE OVER ALL if CONDITION BECOME TRUE . THEN ordersLength != ordersExtraData.length IS NOT NECESSORY TO CHECK . WE CAN SKIP SECOND CONDITION CHECK .
 
 Every skipped  condition check we can save 28 gas .
 
