@@ -1,0 +1,3 @@
+### No. 1
+In the `LooksRareAggregator` contract, the function `supportsProxyFunction` returns a Boolean value indicating whether a given selector is supported or not. This value is taken from storage without any prior validation. At the same time, any uninitialized storage in Solidity contains the default value zero/false. Querying the function `supportsProxyFunction` for an unknown selector (and unregistered `proxy` address) will return false, thereby misleading the user to believe that the selector is used within the `proxy` and is not supported, while in reality the `proxy` is not registered.
+Consider validating the existence of the selector by requiring that the `proxy` address of the selector is registered.
