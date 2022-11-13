@@ -1,0 +1,8 @@
+{
+  "contest": 178,
+  "handle": "SinceJuly",
+  "risk": "2",
+  "title": "ERC721 Token Should be Transfered Using safeTransferFrom",
+  "issueId": 168,
+  "issueUrl": "https://github.com/code-423n4/2022-11-looksrare-findings/issues/168"
+}
